@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class LoginSource {
 
     @Autowired
@@ -15,6 +16,7 @@ public class LoginSource {
 
     @PostMapping("/login")
     private CustomerResponseDTO getCustomerforLogin(@RequestBody LoginDTO loginDTO){
-          return loginService.login(loginDTO);
+        CustomerResponseDTO result = loginService.login(loginDTO);
+          return result;
     }
 }
