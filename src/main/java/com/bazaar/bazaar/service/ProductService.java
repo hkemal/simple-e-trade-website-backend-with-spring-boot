@@ -1,5 +1,6 @@
 package com.bazaar.bazaar.service;
 
+import com.bazaar.bazaar.domain.Customer;
 import com.bazaar.bazaar.domain.Product;
 import com.bazaar.bazaar.dtos.ProductRequestDTO;
 import com.bazaar.bazaar.dtos.ProductResponseDTO;
@@ -34,9 +35,26 @@ public class ProductService {
         return resultProductResponseDTO;
     }
 
-    public List<ProductResponseDTO> getProductById(Integer id) {
-        List<ProductResponseDTO> resultProductResponseDTO = new ArrayList<>();
+    public ProductResponseDTO getProductById(Integer id) {
         List<Product> result = productRepository.findById(id);
+        if (!result.isEmpty()) {
+            Product item = result.get(0);
+            ProductResponseDTO productResponseDTO = new ProductResponseDTO();
+            productResponseDTO.setId(item.getId());
+            productResponseDTO.setPictureUrl(item.getPictureUrl());
+            productResponseDTO.setProductName(item.getProductName());
+            productResponseDTO.setCategory(item.getCategory());
+            productResponseDTO.setPrice(item.getPrice());
+            return productResponseDTO;
+        } else {
+            return null;
+        }
+    }
+
+
+    public List<ProductResponseDTO> getProductByCategory(String category) {
+        List<ProductResponseDTO> resultProductResponseDTO = new ArrayList<>();
+        List<Product> result = productRepository.findByCategory(category);
         if (!result.isEmpty()) {
             for (Product item : result) {
                 ProductResponseDTO productResponseDTO = new ProductResponseDTO();
@@ -50,29 +68,37 @@ public class ProductService {
         }
         return resultProductResponseDTO;
     }
+
+    public List<String> getAllCategoryName() {
+        List<String> allCategoryName;
+        allCategoryName = productRepository.findEachCategory();
+        return allCategoryName;
+    }
+
     //POST
-    public boolean create(ProductRequestDTO newCustomer) {
+    public boolean create(ProductRequestDTO newProduct) {
         Product product = new Product();
-        product.setPictureUrl(newCustomer.getPictureUrl());
-        product.setProductName(newCustomer.getProductName());
-        product.setCategory(newCustomer.getCategory());
-        product.setPrice(newCustomer.getPrice());
+        product.setPictureUrl(newProduct.getPictureUrl());
+        product.setProductName(newProduct.getProductName());
+        product.setCategory(newProduct.getCategory());
+        product.setPrice(newProduct.getPrice());
         productRepository.save(product);
         return true;
     }
+
     //PUT
-    public boolean update(Integer id, ProductRequestDTO newCustomer) {
+    public boolean update(Integer id, ProductRequestDTO newProduct) {
         Product product = new Product();
-        product.setPictureUrl(newCustomer.getPictureUrl());
-        product.setProductName(newCustomer.getProductName());
-        product.setCategory(newCustomer.getCategory());
-        product.setPrice(newCustomer.getPrice());
+        product.setPictureUrl(newProduct.getPictureUrl());
+        product.setProductName(newProduct.getProductName());
+        product.setCategory(newProduct.getCategory());
+        product.setPrice(newProduct.getPrice());
         product.setId(id);
         productRepository.save(product);
         return true;
     }
 
-//DELETE
+    //DELETE
     public String deleteById(Integer id) {
         productRepository.deleteById(id);
         return "Product deleted.";

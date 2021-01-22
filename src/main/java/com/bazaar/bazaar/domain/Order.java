@@ -3,7 +3,10 @@ package com.bazaar.bazaar.domain;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 @Entity
 @Table(name = "order")
@@ -14,16 +17,12 @@ public class Order {
     private Integer id;
 
     @NotNull
-    @Column(name = "order_id", nullable = false)
-    private Integer orderId;
-
-    @NotNull
     @Column(name = "order_date", nullable = false)
     private Date orderDate;
 
+    @ManyToOne
     @NotNull
-    @Column(name = "customer_id", nullable = false)
-    private Integer customerId;
+    private Customer customer;
 
     public Integer getId() {
         return id;
@@ -33,27 +32,20 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
     public Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public void setOrderDate() {
+        Date today = Calendar.getInstance().getTime();
+        this.orderDate = today;
     }
 
-    public Integer getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Integer customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

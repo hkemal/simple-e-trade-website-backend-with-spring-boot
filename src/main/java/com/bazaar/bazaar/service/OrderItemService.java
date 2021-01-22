@@ -1,6 +1,9 @@
 package com.bazaar.bazaar.service;
 
+import com.bazaar.bazaar.domain.Customer;
+import com.bazaar.bazaar.domain.Order;
 import com.bazaar.bazaar.domain.OrderItem;
+import com.bazaar.bazaar.domain.Product;
 import com.bazaar.bazaar.dtos.OrderItemRequestDTO;
 import com.bazaar.bazaar.dtos.OrderItemResponseDTO;
 import com.bazaar.bazaar.repository.OrderItemRepository;
@@ -25,45 +28,71 @@ public class OrderItemService {
             for (OrderItem item : result) {
                 OrderItemResponseDTO orderItemResponseDTO = new OrderItemResponseDTO();
                 orderItemResponseDTO.setId(item.getId());
-                orderItemResponseDTO.setProductId(item.getProductId());
+                orderItemResponseDTO.setProduct(item.getProduct());
                 orderItemResponseDTO.setAmount(item.getAmount());
-                orderItemResponseDTO.setOrderId(item.getOrderId());
+                orderItemResponseDTO.setOrderId(item.getOrder().getId());
                 resultOrderItemResponseDTO.add(orderItemResponseDTO);
             }
         }
         return resultOrderItemResponseDTO;
     }
 
-    public List<OrderItemResponseDTO> getAllOrderItemById(Integer id) {
-        List<OrderItemResponseDTO> resultOrderItemResponseDTO = new ArrayList<>();
+    public OrderItemResponseDTO getOrderItemById(Integer id) {
         List<OrderItem> result = orderItemRepository.findById(id);
+        if (!result.isEmpty()) {
+            OrderItem item = result.get(0);
+            OrderItemResponseDTO orderItemResponseDTO = new OrderItemResponseDTO();
+            orderItemResponseDTO.setId(item.getId());
+            orderItemResponseDTO.setProduct(item.getProduct());
+            orderItemResponseDTO.setAmount(item.getAmount());
+            orderItemResponseDTO.setOrderId(item.getOrder().getId());
+            return orderItemResponseDTO;
+        }
+        return null;
+    }
+
+    public List<OrderItemResponseDTO> getOrderItemByOrderId(Integer orderId) {
+        List<OrderItemResponseDTO> resultOrderItemResponseDTOOrderId = new ArrayList<>();
+        List<OrderItem> result = orderItemRepository.findByOrder_Id(orderId);
         if (!result.isEmpty()) {
             for (OrderItem item : result) {
                 OrderItemResponseDTO orderItemResponseDTO = new OrderItemResponseDTO();
                 orderItemResponseDTO.setId(item.getId());
-                orderItemResponseDTO.setProductId(item.getProductId());
                 orderItemResponseDTO.setAmount(item.getAmount());
-                orderItemResponseDTO.setOrderId(item.getOrderId());
-                resultOrderItemResponseDTO.add(orderItemResponseDTO);
+                orderItemResponseDTO.setProduct(item.getProduct());
+                orderItemResponseDTO.setOrderId(item.getOrder().getId());
+                resultOrderItemResponseDTOOrderId.add(orderItemResponseDTO);
             }
+
+            return resultOrderItemResponseDTOOrderId;
+        } else {
+            return null;
         }
-        return resultOrderItemResponseDTO;
     }
+
+
     //POST
-    public boolean create(OrderItemRequestDTO newCustomer) {
+    public boolean create(OrderItemRequestDTO newOrderItem) {
         OrderItem orderItem = new OrderItem();
-        orderItem.setProductId(newCustomer.getProductId());
-        orderItem.setAmount(newCustomer.getAmount());
-        orderItem.setOrderId(newCustomer.getOrderId());
+        Product product = new Product();
+        product.setId(newOrderItem.getProductId());
+        orderItem.setProduct(product);
+        orderItem.setAmount(newOrderItem.getAmount());
+        Order order = new Order();
+        orderItem.setOrder(order);
         orderItemRepository.save(orderItem);
         return true;
     }
+
     //PUT
     public boolean update(Integer id, OrderItemRequestDTO updatingOrderItem) {
         OrderItem orderItem = new OrderItem();
-        orderItem.setProductId(updatingOrderItem.getProductId());
+        Product product = new Product();
+        product.setId(updatingOrderItem.getProductId());
+        orderItem.setProduct(product);
         orderItem.setAmount(updatingOrderItem.getAmount());
-        orderItem.setOrderId(updatingOrderItem.getOrderId());
+        Order order = new Order();
+        orderItem.setOrder(order);
         orderItem.setId(id);
         orderItemRepository.save(orderItem);
         return true;

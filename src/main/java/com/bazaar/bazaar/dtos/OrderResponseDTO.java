@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class OrderResponseDTO {
     private Integer id;
-    private Integer orderId;
     private Date orderDate;
     private Integer customerId;
 
@@ -14,14 +13,6 @@ public class OrderResponseDTO {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
     }
 
     public Date getOrderDate() {

@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class OrderResource {
     @Autowired
     private OrderService orderService;
@@ -20,19 +21,25 @@ public class OrderResource {
     }
 
     @GetMapping("/get-by-order-id/{id}")
-    private List<OrderResponseDTO> getOrderByName(@PathVariable Integer id) {
+    private OrderResponseDTO getOrderByName(@PathVariable Integer id) {
         return orderService.getOrderById(id);
     }
 
+    @GetMapping("/get-all-order-by-customer-id/{customerId}")
+    private List<OrderResponseDTO> getOrderByCustomerId(@PathVariable Integer customerId) {
+        return orderService.getOrderByCustomerId(customerId);
+    }
+
     @PostMapping("/order-create")
-    private boolean createOrder(@RequestBody OrderRequestDTO newCustomer) {
-        return orderService.create(newCustomer);
+    private boolean createOrder(@RequestBody OrderRequestDTO newOrder) {
+        return orderService.createOrder(newOrder);
     }
 
     @PutMapping("/order-update/{id}")
-    private boolean updateOrder(@PathVariable Integer id,@RequestBody OrderRequestDTO updatingCustomer) {
-        return orderService.update(id,updatingCustomer);
+    private boolean updateOrder(@PathVariable Integer id, @RequestBody OrderRequestDTO updateOrder) {
+        return orderService.updateOrder(id, updateOrder);
     }
+
     @DeleteMapping("/delete-order-by-id/{id}")
     private String deleteOrderById(@PathVariable Integer id) {
         return orderService.deleteById(id);

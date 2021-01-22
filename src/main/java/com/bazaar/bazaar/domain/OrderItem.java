@@ -12,16 +12,20 @@ public class OrderItem {
     @Column(name = "id")
     private Integer id;
 
+    @ManyToOne
     @NotNull
-    @Column(name = "product_id")
-    private Integer productId;
+    private Product product;
 
     @NotNull
     @Column(name = "amount")
     private Float amount;
-    @NotNull
+
+    /*@NotNull
     @Column(name = "order_id")
-    private Integer orderId;
+    private Integer orderId;*/
+    @ManyToOne
+    @NotNull
+    private Order order;
 
     public Integer getId() {
         return id;
@@ -31,12 +35,12 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Float getAmount() {
@@ -47,11 +51,11 @@ public class OrderItem {
         this.amount = amount;
     }
 
-    public Integer getOrderId() {
-        return orderId;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

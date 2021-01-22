@@ -37,22 +37,20 @@ public class CustomerService {
         return resultCustomerResponseDTO;
     }
 
-    public List<CustomerResponseDTO> getByCustomerID(Integer id) {
-        List<CustomerResponseDTO> resultCustomerResponseDTO = new ArrayList<>();
+    public CustomerResponseDTO getByCustomerID(Integer id) {
         List<Customer> result = customerRepository.findById(id);
         if (!result.isEmpty()) {
-            for (Customer item : result) {
-                CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO();
-                customerResponseDTO.setName(item.getName());
-                customerResponseDTO.setSurname(item.getSurname());
-                customerResponseDTO.setId(item.getId());
-                customerResponseDTO.setPhoneNumber(item.getPhoneNumber());
-                customerResponseDTO.setAddress(item.getAddress());
-                customerResponseDTO.setEmail(item.getEmail());
-                resultCustomerResponseDTO.add(customerResponseDTO);
-            }
+            Customer item = result.get(0);
+            CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO();
+            customerResponseDTO.setName(item.getName());
+            customerResponseDTO.setSurname(item.getSurname());
+            customerResponseDTO.setId(item.getId());
+            customerResponseDTO.setPhoneNumber(item.getPhoneNumber());
+            customerResponseDTO.setAddress(item.getAddress());
+            customerResponseDTO.setEmail(item.getEmail());
+            return customerResponseDTO;
         }
-        return resultCustomerResponseDTO;
+        return null;
     }
     //POST
     public boolean createCustomer(CustomerRequestDTO newCustomer) {

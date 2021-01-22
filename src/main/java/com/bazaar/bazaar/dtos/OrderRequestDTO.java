@@ -1,26 +1,18 @@
 package com.bazaar.bazaar.dtos;
 
 import java.util.Date;
+import java.util.List;
 
 public class OrderRequestDTO {
-    private Integer orderId;
-    private Date orderDate;
     private Integer customerId;
+    private List<OrderItemRequestDTO> items;
 
-    public Integer getOrderId() {
-        return orderId;
+    public List<OrderItemRequestDTO> getItems() {
+        return items;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
-
-    public Date getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public void setItems(List<OrderItemRequestDTO> items) {
+        this.items = items;
     }
 
     public Integer getCustomerId() {

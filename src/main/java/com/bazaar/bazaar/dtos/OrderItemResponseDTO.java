@@ -1,8 +1,10 @@
 package com.bazaar.bazaar.dtos;
 
+import com.bazaar.bazaar.domain.Product;
+
 public class OrderItemResponseDTO {
     private Integer id;
-    private Integer productId;
+    private Product product;
     private Float amount;
     private Integer orderId;
 
@@ -14,12 +16,12 @@ public class OrderItemResponseDTO {
         this.id = id;
     }
 
-    public Integer getProductId() {
-        return productId;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setProductId(Integer productId) {
-        this.productId = productId;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public Float getAmount() {

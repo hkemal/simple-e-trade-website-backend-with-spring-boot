@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin("*")
 public class CustomerResource {
 
     @Autowired
@@ -21,7 +22,7 @@ public class CustomerResource {
     }
 
     @GetMapping("/get-by-customer-id/{id}")
-    private List<CustomerResponseDTO> getCustomerById(@PathVariable Integer id) {
+    private CustomerResponseDTO getCustomerById(@PathVariable Integer id) {
         return customerService.getByCustomerID(id);
     }
 
